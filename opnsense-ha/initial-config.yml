@@ -2,6 +2,6 @@
 # This playbook config two opnsenses in HA mode.
 
 - hosts: opnsenses
-
+  connection: local
   roles:
     - test
