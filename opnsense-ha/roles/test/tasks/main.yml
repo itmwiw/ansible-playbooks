@@ -2,5 +2,5 @@
 - name: test
   ansibleguy.opnsense.alias:
     firewall: "{{ ansible_host }}"
-     api_key: "{{ firewall.key }}"
-     api_secret: "{{ firewall.secret }}"
+    api_key: "{{ firewall.key }}"
+    api_secret: "{{ firewall.secret }}"
