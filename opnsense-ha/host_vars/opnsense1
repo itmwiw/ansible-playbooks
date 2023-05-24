@@ -10,3 +10,43 @@ secret: !vault |
   30646137333631373839363431623961353661663236653030326639353730643036343434343534
   39323162663730613037393234383338376438383464643536306464343161353037373861346563
   3263
+  
+interfaces:
+  - name: lan
+    settings:
+    - key: if
+      value: vtnet0
+    - key: descr
+      value: LAN
+    - key: enable
+      value: 1
+    - key: ipaddr
+      value: 192.168.1.251
+    - key: subnet
+      value: 24
+  - name: wan
+    settings:
+    - key: if
+      value: vtnet1
+    - key: descr
+      value: WAN
+    - key: enable
+      value: 1
+    - key: blockpriv
+      value: 1
+    - key: ipaddr
+      value: 10.1.102.251
+    - key: subnet
+      value: 24
+  - name: opt1
+    settings:
+    - key: if
+      value: vtnet2
+    - key: descr
+      value: PFSYNC
+    - key: enable
+      value: 1
+    - key: ipaddr
+      value: 10.0.0.1
+    - key: subnet
+      value: 24

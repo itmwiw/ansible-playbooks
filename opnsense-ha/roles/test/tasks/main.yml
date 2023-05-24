@@ -1,6 +1,14 @@
 ---
 - name: test
-  ansibleguy.opnsense.alias:
+  ansibleguy.opnsense.list:
     firewall: "{{ ansible_host }}"
-    api_key: "{{ firewall.key }}"
-    api_secret: "{{ firewall.secret }}"
+    api_key: "{{ key }}"
+    api_secret: "{{ secret }}"
+    ssl_verify: false
+    target: 'alias'
+  register: existing_aliases
+
+- name: Printing
+  ansible.builtin.debug:
+    var: existing_aliases.data
+

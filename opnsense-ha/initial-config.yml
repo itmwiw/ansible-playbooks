@@ -4,4 +4,4 @@
 - hosts: opnsenses
   connection: local
   roles:
-    - test
+    - interfaces
