@@ -16,6 +16,22 @@
     apply:
       tags: interfaces
 
+- name: virtualip
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: virtualip.yml
+    apply:
+      tags: virtualip
+      
+- name: dhcpd
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: dhcpd.yml
+    apply:
+      tags: dhcpd
+
 - name: copy
   ansible.builtin.copy:
     src: "{{ local_config_path }}"
@@ -27,17 +43,15 @@
   register: config
   tags: copy
 
-- name: sync  # noqa 503 no-handler
-  ansible.builtin.command: "{{ item }}"
-  throttle: 1
-  # loop_control:
-  #   pause: 3
-  with_items:
-    - configctl filter sync
-  when: config.changed
-  tags:
-    - sync
-    - copy
+# - name: sync  # noqa 503 no-handler
+  # ansible.builtin.command: "{{ item }}"
+  # throttle: 1
+  # with_items:
+    # - configctl filter sync
+  # when: config.changed
+  # tags:
+    # - sync
+    # - copy
 
 - name: reload 
   ansible.builtin.command: "{{ item }}"

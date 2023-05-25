@@ -32,8 +32,6 @@ interfaces:
       value: WAN
     - key: enable
       value: 1
-    - key: blockpriv
-      value: 1
     - key: ipaddr
       value: 10.1.102.251
     - key: subnet
@@ -50,3 +48,29 @@ interfaces:
       value: 10.0.0.1
     - key: subnet
       value: 24
+	  
+virtualip:
+  - vhid: 1
+    settings:
+    - key: interface
+      value: wan
+    - key: mode
+      value: carp
+    - key: subnet
+      value: 10.0.102.253
+    - key: subnet_bits
+      value: 24
+    - key: descr
+      value: 'Virtual Wan IP'
+  - vhid: 3
+    settings:
+    - key: interface
+      value: lan
+    - key: mode
+      value: carp
+    - key: subnet
+      value: 192.168.0.1
+    - key: subnet_bits
+      value: 24
+    - key: descr
+      value: 'Virtual Lan IP'

@@ -1,0 +1,44 @@
+---
+
+- name: dhcpd - parameters
+  delegate_to: localhost
+  xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/dhcpd/{{ item.0.if }}/{{ item.1.key }}
+    value: "{{ item.1.value }}"
+    pretty_print: yes
+  with_subelements:
+    - "{{ dhcpd }}"
+    - settings
+  when:
+    - dhcpd is defined
+    - item.1.key != 'enable'
+    
+- name: dhcpd - enable
+  delegate_to: localhost
+  xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/dhcpd/{{ item.0.if }}/{{ item.1.key }}
+    pretty_print: yes
+  with_subelements:
+    - "{{ dhcpd }}"
+    - settings
+  when:
+    - dhcpd is defined
+    - item.1.key == 'enable' and item.1.value == 1
+    
+- name: dhcpd - disable
+  delegate_to: localhost
+  xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/dhcpd/{{ item.0.if }}/{{ item.1.key }}
+    state: absent
+    pretty_print: yes
+  with_subelements:
+    - "{{ dhcpd }}"
+    - settings
+  when:
+    - dhcpd is defined
+    - item.1.key == 'enable' and item.1.value == 0
+
+...
