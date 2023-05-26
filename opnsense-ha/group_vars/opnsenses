@@ -2,7 +2,79 @@ ansible_ssh_private_key_file: ~/.ssh/mykey
 ansible_user: root
 
 dhcpd:
-  - name: lan
+  - if: lan
     settings:
     - key: enable
       value: 0
+
+filter:
+  - descr: 'allow carp on WAN interface'
+    settings:
+    - key: type
+      value: pass
+    - key: interface
+      value: wan
+    - key: ipprotocol
+      value: inet
+    - key: statetype
+      value: 'keep state'
+    - key: direction
+      value: in
+    - key: quick
+      value: 1
+    - key: protocol
+      value: carp
+    - key: source
+      value: 
+        source:
+          any: 1
+    - key: destination
+      value: 
+        source:
+          any: 1
+  - descr: 'allow carp on LAN interface'
+    settings:
+    - key: type
+      value: pass
+    - key: interface
+      value: lan
+    - key: ipprotocol
+      value: inet
+    - key: statetype
+      value: 'keep state'
+    - key: direction
+      value: in
+    - key: quick
+      value: 1
+    - key: protocol
+      value: carp
+    - key: source
+      value: 
+        source:
+          any: 1
+    - key: destination
+      value: 
+        source:
+          any: 1
+  - descr: 'allow all on PFSYNC interface'
+    settings:
+    - key: type
+      value: pass
+    - key: interface
+      value: opt1
+    - key: ipprotocol
+      value: inet
+    - key: statetype
+      value: 'keep state'
+    - key: direction
+      value: in
+    - key: quick
+      value: 1
+    - key: source
+      value: 
+        source:
+          any: 1
+    - key: destination
+      value: 
+        source:
+          any: 1
