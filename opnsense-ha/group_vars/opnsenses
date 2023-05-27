@@ -24,14 +24,10 @@ filter:
       value: 1
     - key: protocol
       value: carp
-    - key: source
-      value: 
-        source:
-          any: 1
-    - key: destination
-      value: 
-        source:
-          any: 1
+    - key: source/any
+      value: 1
+    - key: destination/any
+      value: 1
   - descr: 'allow carp on LAN interface'
     settings:
     - key: type
@@ -48,14 +44,10 @@ filter:
       value: 1
     - key: protocol
       value: carp
-    - key: source
-      value: 
-        source:
-          any: 1
-    - key: destination
-      value: 
-        source:
-          any: 1
+    - key: source/any
+      value: 1
+    - key: destination/any
+      value: 1
   - descr: 'allow all on PFSYNC interface'
     settings:
     - key: type
@@ -70,11 +62,38 @@ filter:
       value: in
     - key: quick
       value: 1
-    - key: source
-      value: 
-        source:
-          any: 1
-    - key: destination
-      value: 
-        source:
-          any: 1
+    - key: source/any
+      value: 1
+    - key: destination/any
+      value: 1
+
+nat:
+  outbound:
+    mode: advanced
+    rules:
+	- descr: Nat to virtual Wan IP
+	  settings:
+      - key: source/network
+        value: lan
+      - key: interface
+        value: wan
+      - key: target
+        value: 10.0.102.253
+
+
+hasync:
+  - pfsyncenabled: "on"
+  - username: "root"
+  - password: "opnsense"
+  - pfsyncenabled: on
+  - synchronizealiases: on
+  - synchronizedhcpd: on
+  - synchronizenat: on
+  - synchronizerules: on
+  - synchronizevirtualip: on
+  - synchronizewidgets: on
+  - pfsyncinterface: opt1
+  - synchronizetoip: 10.0.0.2
+  - username: root
+  - password: opnsense
+  - pfsyncpeerip: 10.0.0.2

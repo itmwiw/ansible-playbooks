@@ -32,6 +32,30 @@
     apply:
       tags: dhcpd
 
+- name: filter
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: filter.yml
+    apply:
+      tags: filter
+
+- name: nat
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: nat.yml
+    apply:
+      tags: nat
+
+- name: hasync
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: hasync.yml
+    apply:
+      tags: hasync
+
 - name: copy
   ansible.builtin.copy:
     src: "{{ local_config_path }}"
