@@ -67,21 +67,21 @@
   register: config
   tags: copy
 
-# - name: sync  # noqa 503 no-handler
-  # ansible.builtin.command: "{{ item }}"
-  # throttle: 1
-  # with_items:
-    # - configctl filter sync
-  # when: config.changed
-  # tags:
-    # - sync
-    # - copy
+- name: sync  # sync master/slave
+  ansible.builtin.command: "{{ item }}"
+  throttle: 1
+  with_items:
+    - configctl filter sync
+  when:
+    - config.changed 
+    - inventory_hostname == groups.opnsenses.0
+  tags:
+    - sync
+    - copy
 
 - name: reload 
   ansible.builtin.command: "{{ item }}"
   throttle: 1
-  # loop_control:
-  #   pause: 3
   with_items:
     - configctl service reload all
     - configctl webgui restart

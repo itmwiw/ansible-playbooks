@@ -7,6 +7,32 @@ dhcpd:
     - key: enable
       value: 0
 
+virtualip:
+  - vhid: 1
+    settings:
+    - key: interface
+      value: wan
+    - key: mode
+      value: carp
+    - key: subnet
+      value: 192.168.102.253
+    - key: subnet_bits
+      value: 24
+    - key: descr
+      value: 'Virtual Wan IP'
+  - vhid: 3
+    settings:
+    - key: interface
+      value: lan
+    - key: mode
+      value: carp
+    - key: subnet
+      value: 192.168.1.1
+    - key: subnet_bits
+      value: 24
+    - key: descr
+      value: 'Virtual Lan IP'
+
 filter:
   - descr: 'allow carp on WAN interface'
     settings:
@@ -78,19 +104,5 @@ nat:
       - key: interface
         value: wan
       - key: target
-        value: 10.0.102.253
+        value: 192.168.102.253
 
-
-hasync:
-  - pfsyncenabled: "on"
-  - synchronizealiases: "on"
-  - synchronizedhcpd: "on"
-  - synchronizenat: "on"
-  - synchronizerules: "on"
-  - synchronizevirtualip: "on"
-  - synchronizewidgets: "on"
-  - pfsyncinterface: "opt1"
-  - synchronizetoip: "10.0.0.2"
-  - username: "root"
-  - password: "opnsense"
-  - pfsyncpeerip: "10.0.0.2"

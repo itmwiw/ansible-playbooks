@@ -1,15 +1,12 @@
 ---
 
-- name: interfaces - settings for an interface
-  delegate_to: localhost
-  community.general.xml:
-    path: "{{ local_config_path }}"
-    xpath: /opnsense/interfaces/{{ item.0.name }}/{{ item.1.key }}
-    value: "{{ item.1.value }}"
-    pretty_print: true
-  with_subelements:
-    - "{{ interfaces }}"
-    - settings
-  when:
-    - interfaces is defined
+- name: interfaces - loop over interfaces
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: interface.yml
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+
 ...

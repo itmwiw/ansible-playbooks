@@ -7,5 +7,5 @@
     xpath: "/opnsense/hasync/{{ item.key }}"
     value: "{{ item.value }}"
     pretty_print: true
-  with_dict: "{{ hasync | default([]) }}"
+  loop: "{{ hasync | dict2items | default([]) }}"
 ...

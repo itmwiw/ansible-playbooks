@@ -1,52 +1,27 @@
-key: '4TB5ldOuWXtB7lyVMlaVQ2ctnO6o8xJp3zpi5dnuLMjHC11waWGgTVEy5mYMOdpZoufbPBXKenPFxJJs'
-secret: !vault |
-  $ANSIBLE_VAULT;1.1;AES256
-  66343039313335323533646137353234376330326362383035663231333936646661346266383436
-  3835656333613339666339356438613165636163383365360a373964346637626239623130353866
-  65346335396131666135393663376339613437346336653661373831623064353031313936303964
-  3061383435663932390a356633636539343530633833303666663337636131393966336634646632
-  37656331613537303030316536616330643363303530663736663964363261616234376232373234
-  66333434613832396666663931396364393136356338613662346461366139613738623630386637
-  62303937303961663437636232393237366161386161353066386434386535343162343764663337
-  65636463373734373731656666386266383532363936316132616531396136366366653761393461
-  6235
-  
 interfaces:
   - name: lan
     settings:
-    - key: if
-      value: vtnet0
-    - key: descr
-      value: LAN
-    - key: enable
-      value: 1
-    - key: ipaddr
-      value: 192.168.1.252
-    - key: subnet
-      value: 24
+      if: vtnet0
+      descr: LAN
+      enable: 1
+      ipaddr: 192.168.1.252
+      subnet: 24
   - name: wan
     settings:
-    - key: if
-      value: vtnet1
-    - key: descr
-      value: WAN
-    - key: enable
-      value: 1
-    - key: blockpriv
-      value: 1
-    - key: ipaddr
-      value: 10.1.102.252
-    - key: subnet
-      value: 24
+      if: vtnet1
+      descr: WAN
+      enable: 1
+      ipaddr: 192.168.102.252
+      subnet: 24
   - name: opt1
     settings:
-    - key: if
-      value: vtnet2
-    - key: descr
-      value: PFSYNC
-    - key: enable
-      value: 1
-    - key: ipaddr
-      value: 10.0.0.2
-    - key: subnet
-      value: 24
+      if: vtnet2
+      descr: PFSYNC
+      enable: 1
+      ipaddr: 10.0.0.2
+      subnet: 24
+
+hasync:
+  pfsyncenabled: "on"
+  pfsyncinterface: "opt1"
+  pfsyncpeerip: "10.0.0.1"

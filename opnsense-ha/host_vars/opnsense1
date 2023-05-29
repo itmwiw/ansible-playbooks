@@ -1,76 +1,36 @@
-key: '0zviwuxLCg+e/NEO1MP6qRlQhbO196QL3gCQqjjUkl2ggEncVtUxtFaMgG4020/Ul9X2TEm1+LSYzrnR'
-secret: !vault |
-  $ANSIBLE_VAULT;1.1;AES256
-  33616535653164646238383463363434663531353835376362613030303233613631333738386233
-  6534383639313330393763306139666263623539323665300a336137303365386335633663633962
-  33326464366230646530663432386561363938626534363936313362616363323132336637643831
-  3963313061303434350a376635343439393363303031663739613162333561343962383062303263
-  33366532366636393538323734303065633437646536373037646462663335373338393033303964
-  39363631663263653032663835643331343836313531653234323563666633393435333666363131
-  30646137333631373839363431623961353661663236653030326639353730643036343434343534
-  39323162663730613037393234383338376438383464643536306464343161353037373861346563
-  3263
-  
 interfaces:
   - name: lan
     settings:
-    - key: if
-      value: vtnet0
-    - key: descr
-      value: LAN
-    - key: enable
-      value: 1
-    - key: ipaddr
-      value: 192.168.1.251
-    - key: subnet
-      value: 24
+      if: vtnet0
+      descr: LAN
+      enable: 1
+      ipaddr: 192.168.1.251
+      subnet: 24
   - name: wan
     settings:
-    - key: if
-      value: vtnet1
-    - key: descr
-      value: WAN
-    - key: enable
-      value: 1
-    - key: ipaddr
-      value: 10.1.102.251
-    - key: subnet
-      value: 24
+      if: vtnet1
+      descr: WAN
+      enable: 1
+      ipaddr: 192.168.102.251
+      subnet: 24
   - name: opt1
     settings:
-    - key: if
-      value: vtnet2
-    - key: descr
-      value: PFSYNC
-    - key: enable
-      value: 1
-    - key: ipaddr
-      value: 10.0.0.1
-    - key: subnet
-      value: 24
+      if: vtnet2
+      descr: PFSYNC
+      enable: 1
+      ipaddr: 10.0.0.1
+      subnet: 24
 
-virtualip:
-  - vhid: 1
-    settings:
-    - key: interface
-      value: wan
-    - key: mode
-      value: carp
-    - key: subnet
-      value: 10.0.102.253
-    - key: subnet_bits
-      value: 24
-    - key: descr
-      value: 'Virtual Wan IP'
-  - vhid: 3
-    settings:
-    - key: interface
-      value: lan
-    - key: mode
-      value: carp
-    - key: subnet
-      value: 192.168.0.1
-    - key: subnet_bits
-      value: 24
-    - key: descr
-      value: 'Virtual Lan IP'
+hasync:
+  pfsyncenabled: "on"
+  synchronizealiases: "on"
+  synchronizedhcpd: "on"
+  synchronizenat: "on"
+  synchronizerules: "on"
+  synchronizevirtualip: "on"
+  synchronizewidgets: "on"
+  pfsyncinterface: "opt1"
+  synchronizetoip: "10.0.0.2"
+  username: "root"
+  password: "opnsense"
+  pfsyncpeerip: "10.0.0.2"
