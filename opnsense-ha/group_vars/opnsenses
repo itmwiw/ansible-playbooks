@@ -4,94 +4,57 @@ ansible_user: root
 dhcpd:
   - if: lan
     settings:
-    - key: enable
-      value: 0
+      enable: 0
 
-virtualip:
+virtualips:
   - vhid: 1
     settings:
-    - key: interface
-      value: wan
-    - key: mode
-      value: carp
-    - key: subnet
-      value: 192.168.102.253
-    - key: subnet_bits
-      value: 24
-    - key: descr
-      value: 'Virtual Wan IP'
+      interface: wan
+      mode: carp
+      subnet: 192.168.102.253
+      subnet_bits: 24
+      descr: 'Virtual Wan IP'
   - vhid: 3
     settings:
-    - key: interface
-      value: lan
-    - key: mode
-      value: carp
-    - key: subnet
-      value: 192.168.1.1
-    - key: subnet_bits
-      value: 24
-    - key: descr
-      value: 'Virtual Lan IP'
+      interface: lan
+      mode: carp
+      subnet: 192.168.1.1
+      subnet_bits: 24
+      descr: 'Virtual Lan IP'
 
 filter:
   - descr: 'allow carp on WAN interface'
     settings:
-    - key: type
-      value: pass
-    - key: interface
-      value: wan
-    - key: ipprotocol
-      value: inet
-    - key: statetype
-      value: 'keep state'
-    - key: direction
-      value: in
-    - key: quick
-      value: 1
-    - key: protocol
-      value: carp
-    - key: source/any
-      value: 1
-    - key: destination/any
-      value: 1
+      type: pass
+      interface: wan
+      ipprotocol: inet
+      statetype: 'keep state'
+      direction: in
+      quick: 1
+      protocol: carp
+      source/any: 1
+      destination/any: 1
   - descr: 'allow carp on LAN interface'
     settings:
-    - key: type
-      value: pass
-    - key: interface
-      value: lan
-    - key: ipprotocol
-      value: inet
-    - key: statetype
-      value: 'keep state'
-    - key: direction
-      value: in
-    - key: quick
-      value: 1
-    - key: protocol
-      value: carp
-    - key: source/any
-      value: 1
-    - key: destination/any
-      value: 1
+      type: pass
+      interface: lan
+      ipprotocol: inet
+      statetype: 'keep state'
+      direction: in
+      quick: 1
+      protocol: carp
+      source/any: 1
+      destination/any: 1
   - descr: 'allow all on PFSYNC interface'
     settings:
-    - key: type
-      value: pass
-    - key: interface
-      value: opt1
-    - key: ipprotocol
-      value: inet
-    - key: statetype
-      value: 'keep state'
-    - key: direction
-      value: in
-    - key: quick
-      value: 1
-    - key: source/any
-      value: 1
-    - key: destination/any
-      value: 1
+      type: pass
+      interface: opt1
+      ipprotocol: inet
+      statetype: 'keep state'
+      direction: in
+      quick: 1
+      source/any: 1
+      destination/any: 1
 
 nat:
   outbound:
@@ -99,10 +62,6 @@ nat:
     rules:
     - descr: 'Nat to virtual Wan IP'
       settings:
-      - key: source/network
-        value: lan
-      - key: interface
-        value: wan
-      - key: target
-        value: 192.168.102.253
-
+        source/network: lan
+        interface: wan
+        target: 192.168.102.253

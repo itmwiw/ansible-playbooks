@@ -4,11 +4,9 @@
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
-    xpath: /opnsense/virtualip/vip[vhid/text()="{{ item.0.vhid }}"]/{{ item.1.key }}
-    value: "{{ item.1.value }}"
+    xpath: /opnsense/virtualip/vip[vhid/text()="{{ virtualip.vhid }}"]/{{ item.key }}
+    value: "{{ item.value }}"
     pretty_print: true
-  with_subelements:
-    - "{{ virtualip | default([]) }}"
-    - settings
+  loop: "{{ virtualip.settings | dict2items }}"
 
 ...

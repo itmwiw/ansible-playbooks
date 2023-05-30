@@ -8,53 +8,57 @@
     apply:
       tags: fetch
 
-- name: interfaces
+- name: Configure interfaces
   tags:
     - always
   ansible.builtin.include_tasks:
-    file: interfaces.yml
-    apply:
-      tags: interfaces
+    file: interface.yml
+  loop: "{{ interfaces }}"
+  loop_control:
+    loop_var: interface
+  when: interfaces is defined
 
-- name: virtualip
+- name: Configure virtualips
   tags:
     - always
   ansible.builtin.include_tasks:
     file: virtualip.yml
-    apply:
-      tags: virtualip
+  loop: "{{ virtualips }}"
+  loop_control:
+    loop_var: virtualip
+  when: virtualips is defined
       
-- name: dhcpd
+- name: Configure dhcp
   tags:
     - always
   ansible.builtin.include_tasks:
     file: dhcpd.yml
-    apply:
-      tags: dhcpd
+  loop: "{{ dhcpd }}"
+  loop_control:
+    loop_var: dhcpd_if
+  when: dhcpd is defined
 
-- name: filter
+- name: Configure firewall rules
   tags:
     - always
   ansible.builtin.include_tasks:
     file: filter.yml
-    apply:
-      tags: filter
+  loop: "{{ filter }}"
+  loop_control:
+    loop_var: filter_rule
+  when: filter is defined
 
 - name: nat
   tags:
     - always
   ansible.builtin.include_tasks:
-    file: nat.yml
-    apply:
-      tags: nat
+    file: nat.yml 
 
 - name: hasync
   tags:
     - always
   ansible.builtin.include_tasks:
     file: hasync.yml
-    apply:
-      tags: hasync
 
 - name: copy
   ansible.builtin.copy:
@@ -66,18 +70,6 @@
     mode: 0644
   register: config
   tags: copy
-
-- name: sync  # sync master/slave
-  ansible.builtin.command: "{{ item }}"
-  throttle: 1
-  with_items:
-    - configctl filter sync
-  when:
-    - config.changed 
-    - inventory_hostname == groups.opnsenses.0
-  tags:
-    - sync
-    - copy
 
 - name: reload 
   ansible.builtin.command: "{{ item }}"

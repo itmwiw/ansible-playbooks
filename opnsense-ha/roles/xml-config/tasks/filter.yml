@@ -1,16 +1,12 @@
 ---
 
-# FIXME: the opnsense sort algorithm differs ... see filter_rules_sort in src/etc/inc/filter.inc
-
-- name: filters
+- name: filters settings
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
-    xpath: /opnsense/filter/rule[descr/text()="{{ item.0.descr }}"]/{{ item.1.key }}
-    value: "{{ item.1.value }}"
+    xpath: /opnsense/filter/rule[descr/text()="{{ filter_rule.descr }}"]/{{ item.key }}
+    value: "{{ item.value }}"
     pretty_print: true
-  with_subelements:
-    - "{{ filter | default([]) }}"
-    - settings
+  loop: "{{ filter_rule.settings | dict2items }}"
 
 ...

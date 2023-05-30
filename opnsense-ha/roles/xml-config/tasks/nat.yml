@@ -9,15 +9,13 @@
     pretty_print: true
   when: nat.outbound.mode is defined
 
-- name: nat - rules
+- name: nat outbound - rules
   delegate_to: localhost
-  community.general.xml:
-    path: "{{ local_config_path }}"
-    xpath: /opnsense/nat/outbound/rule[descr/text()="{{ item.0.descr }}"]/{{ item.1.key }}
-    value: "{{ item.1.value }}"
-    pretty_print: true
-  with_subelements:
-    - "{{ nat.outbound.rules | default([]) }}"
-    - settings
+  ansible.builtin.include_tasks:
+    file: nat-rules.yml
+  loop: "{{ nat.outbound.rules | default([]) }}"
+  loop_control:
+    loop_var: nat_outbound_rule
+  when: nat.outbound.rules is defined
 
 ...
