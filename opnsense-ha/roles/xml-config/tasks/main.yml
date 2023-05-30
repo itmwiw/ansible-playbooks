@@ -71,6 +71,16 @@
   register: config
   tags: copy
 
+- name: sync  # Sync Master to Backup
+  ansible.builtin.command: "{{ item }}"
+  throttle: 1
+  with_items:
+    - configctl filter sync
+  when: config.changed
+  tags:
+    - sync
+    - copy
+
 - name: reload 
   ansible.builtin.command: "{{ item }}"
   throttle: 1

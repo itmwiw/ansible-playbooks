@@ -21,6 +21,22 @@ interfaces:
       ipaddr: 10.0.0.1
       subnet: 24
 
+virtualips:
+  - vhid: 1
+    settings:
+      interface: wan
+      mode: carp
+      subnet: 192.168.102.253
+      subnet_bits: 24
+      descr: 'Virtual Wan IP'
+  - vhid: 3
+    settings:
+      interface: lan
+      mode: carp
+      subnet: 192.168.1.1
+      subnet_bits: 24
+      descr: 'Virtual Lan IP'
+
 hasync:
   pfsyncenabled: "on"
   synchronizealiases: "on"

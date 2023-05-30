@@ -1,29 +1,14 @@
-## Standalone Tomcat Deployment
+## Prerequisites
 
-- Requires Ansible 1.2 or newer
-- Expects CentOS/RHEL 6.x hosts
+- The Opnsense firewalls must be accessible via the ip adress or hostname in the hosts.ini file.
+- Ssh must be enabled on both firewalls: Navigate to System > Settings > Administration and under Secure Shell section, check Enable Secure Shell. To login as root, check Permit root user login.
+- Add the ssh public keys: system > acess > user > authorized keys.
+- Change the login shell to tcsh: system > acess > user >  Login shell = tcsh
 
-These playbooks deploy a very basic implementation of Tomcat Application Server,
-version 7. To use them, first edit the `hosts` inventory file to contain the
-hostnames of the machines on which you want Tomcat deployed, and edit the 
-group_vars/tomcat-servers file to set any Tomcat configuration parameters you need.
+## Run the playbook
 
-Then run the playbook, like this:
+- Install dependencies:
+sudo apt install python3-lxml
 
-	ansible-playbook -i hosts site.yml
-
-When the playbook run completes, you should be able to see the Tomcat
-Application Server running on the ports you chose, on the target machines.
-
-This is a very simple playbook and could serve as a starting point for more
-complex Tomcat-based projects. 
-
-### Ideas for Improvement
-
-Here are some ideas for ways that these playbooks could be extended:
-
-- Write a playbook to deploy an actual application into the server.
-- Deploy Tomcat clustered with a load balancer in front.
-
-We would love to see contributions and improvements, so please fork this
-repository on GitHub and send us your changes via pull requests.
+- Run the paybook:
+ansible-playbook initial-config.yml -i hosts.ini
