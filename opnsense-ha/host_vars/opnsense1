@@ -48,5 +48,5 @@ hasync:
   pfsyncinterface: "opt1"
   synchronizetoip: "10.0.0.2"
   username: "root"
-  password: "opnsense"
+  password: "{{ lookup('file', '../../opnsense-password') }}"
   pfsyncpeerip: "10.0.0.2"
