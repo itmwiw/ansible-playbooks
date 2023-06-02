@@ -1,0 +1,48 @@
+dhcpd:
+  - if: lan
+    settings:
+      enable: 0
+
+filter:
+  - descr: 'allow carp on WAN interface'
+    settings:
+      type: pass
+      interface: wan
+      ipprotocol: inet
+      statetype: 'keep state'
+      direction: in
+      quick: 1
+      protocol: carp
+      source/any: 1
+      destination/any: 1
+  - descr: 'allow carp on LAN interface'
+    settings:
+      type: pass
+      interface: lan
+      ipprotocol: inet
+      statetype: 'keep state'
+      direction: in
+      quick: 1
+      protocol: carp
+      source/any: 1
+      destination/any: 1
+  - descr: 'allow all on PFSYNC interface'
+    settings:
+      type: pass
+      interface: opt1
+      ipprotocol: inet
+      statetype: 'keep state'
+      direction: in
+      quick: 1
+      source/any: 1
+      destination/any: 1
+
+nat:
+  outbound:
+    mode: advanced
+    rules:
+    - descr: 'Nat to virtual Wan IP'
+      settings:
+        source/network: lan
+        interface: wan
+        target: 192.168.102.253

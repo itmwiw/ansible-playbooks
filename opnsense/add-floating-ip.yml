@@ -1,0 +1,7 @@
+---
+# This playbook config add VM's floating Ips configuration.
+# Apply only to the Master instance, as the role include a task that sync with the Backup.
+
+- hosts: opnsense1
+  roles:
+    - floating-ip

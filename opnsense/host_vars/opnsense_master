@@ -1,0 +1,53 @@
+# HA configuration
+interfaces:
+  - name: lan
+    settings:
+      if: vtnet0
+      descr: LAN
+      enable: 1
+      ipaddr: 192.168.1.251
+      subnet: 24
+  - name: wan
+    settings:
+      if: vtnet1
+      descr: WAN
+      enable: 1
+      ipaddr: 192.168.102.251
+      subnet: 24
+  - name: opt1
+    settings:
+      if: vtnet2
+      descr: PFSYNC
+      enable: 1
+      ipaddr: 10.0.0.1
+      subnet: 24
+
+virtualips:
+  - vhid: 1
+    settings:
+      interface: wan
+      mode: carp
+      subnet: 192.168.102.253
+      subnet_bits: 24
+      descr: 'Virtual Wan IP'
+  - vhid: 3
+    settings:
+      interface: lan
+      mode: carp
+      subnet: 192.168.1.1
+      subnet_bits: 24
+      descr: 'Virtual Lan IP'
+
+hasync:
+  pfsyncenabled: "on"
+  synchronizealiases: "on"
+  synchronizedhcpd: "on"
+  synchronizenat: "on"
+  synchronizerules: "on"
+  synchronizevirtualip: "on"
+  synchronizewidgets: "on"
+  pfsyncinterface: "opt1"
+  synchronizetoip: "10.0.0.2"
+  username: "root"
+  password: "{{ lookup('file', '../../opnsense-password') }}"
+  pfsyncpeerip: "10.0.0.2"

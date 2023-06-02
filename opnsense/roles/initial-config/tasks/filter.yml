@@ -1,0 +1,12 @@
+---
+
+- name: filters settings
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/filter/rule[descr/text()="{{ filter_rule.descr }}"]/{{ item.key }}
+    value: "{{ item.value }}"
+    pretty_print: true
+  loop: "{{ filter_rule.settings | dict2items }}"
+
+...

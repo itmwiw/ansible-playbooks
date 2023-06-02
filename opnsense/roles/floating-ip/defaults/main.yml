@@ -1,0 +1,23 @@
+---
+
+# remote path of the config
+config_path: /conf/config.xml
+
+# local path for the config
+local_config_path: /tmp/config-{{ inventory_hostname }}.xml
+
+
+floating_ip_gateway:
+  interface: "lan"
+  gateway: "{{ floating_ip }}"
+  name: "ip_public_{{ floating_ip.split(".")[3] }}"
+  priority: "255"
+  weight: "1"
+  ipprotocol: "inet"
+  monitor_disable: "1"
+  fargw: "1"
+
+floating_ip_route:  
+  network: "{{ floating_ip }}/32"
+  gateway: "ip_public_{{ floating_ip.split(".")[3] }}"
+  disabled: "0"
