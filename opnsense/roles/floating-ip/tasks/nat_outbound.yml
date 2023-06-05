@@ -1,0 +1,13 @@
+---
+
+- name: nat outbound - rules
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/nat/outbound/rule[descr/text()="Nat outbound for {{ floating_ip }}"]/{{ item.key }}
+    value: "{{ item.value }}"
+    pretty_print: true 
+  loop: "{{ floating_ip_nat_outbound | dict2items }}"
+  when: floating_ip_ha == true
+
+...

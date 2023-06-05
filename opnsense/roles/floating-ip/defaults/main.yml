@@ -32,3 +32,9 @@ floating_ip_filter:
   source/address: "{{ floating_ip }}"
   destination/any: "1"
 
+floating_ip_ha: true
+
+floating_ip_nat_outbound:
+  source/network: "{{ floating_ip }}/32"
+  interface: wan
+  target: 192.168.102.253
