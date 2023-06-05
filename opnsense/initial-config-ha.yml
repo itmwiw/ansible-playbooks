@@ -1,6 +1,6 @@
 ---
 # This playbook config two opnsenses in HA mode.
 
-- hosts: opnsenses-ha
+- hosts: opnsenses_ha
   roles:
     - initial-config

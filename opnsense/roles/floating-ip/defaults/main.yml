@@ -10,7 +10,7 @@ local_config_path: /tmp/config-{{ inventory_hostname }}.xml
 floating_ip_gateway:
   interface: "lan"
   gateway: "{{ floating_ip }}"
-  name: "ip_public_{{ floating_ip.split(".")[3] }}"
+  name: "ip_public_{{ floating_ip.split('.')[3] }}"
   priority: "255"
   weight: "1"
   ipprotocol: "inet"
@@ -19,5 +19,16 @@ floating_ip_gateway:
 
 floating_ip_route:  
   network: "{{ floating_ip }}/32"
-  gateway: "ip_public_{{ floating_ip.split(".")[3] }}"
+  gateway: "ip_public_{{ floating_ip.split('.')[3] }}"
   disabled: "0"
+
+floating_ip_filter:  
+  type: "pass"
+  interface: "lan"
+  ipprotocol: "inet"
+  statetype: "keep state"
+  direction: "in"
+  quick: "1"
+  source/address: "{{ floating_ip }}"
+  destination/any: "1"
+

@@ -4,9 +4,9 @@
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
-    xpath: /opnsense/filter/rule[descr/text()="{{ filter_rule.descr }}"]/{{ item.key }}
+    xpath: /opnsense/filter/rule[descr/text()="Allow traffic from {{ floating_ip }}"]/{{ item.key }}
     value: "{{ item.value }}"
     pretty_print: true
-  loop: "{{ filter_rule.settings | dict2items }}"
+  loop: "{{ floating_ip_filter | dict2items }}"
 
 ...

@@ -4,7 +4,7 @@
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
-    xpath: /opnsense/gateways/gateway_item/{{ item.key }}
+    xpath: /opnsense/gateways/gateway_item[interface/text()="{{ floating_ip_gateway.interface }}" and name/text()="{{ floating_ip_gateway.name }}"]/{{ item.key }}
     value: "{{ item.value }}"
     pretty_print: true
   loop: "{{ floating_ip_gateway | dict2items }}"
