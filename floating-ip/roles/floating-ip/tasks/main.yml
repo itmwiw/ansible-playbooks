@@ -1,0 +1,80 @@
+---
+
+- name: fetch
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: fetch.yml
+    apply:
+      tags: fetch
+
+- name: gateways
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: gateways.yml
+  loop: "{{ floating_ips }}"
+  loop_control:
+    loop_var: floating_ip
+  when: floating_ips is defined
+
+- name: staticroutes
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: staticroutes.yml
+  loop: "{{ floating_ips }}"
+  loop_control:
+    loop_var: floating_ip
+  when: floating_ips is defined
+
+- name: Configure firewall rules
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: filter.yml
+  loop: "{{ floating_ips }}"
+  loop_control:
+    loop_var: floating_ip
+  when: floating_ips is defined
+
+- name: Configure ARP Proxy
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: virtualip.yml
+  loop: "{{ floating_ips }}"
+  loop_control:
+    loop_var: floating_ip
+  when: floating_ips is defined
+
+- name: copy
+  ansible.builtin.copy:
+    src: "{{ local_config_path }}"
+    dest: "{{ config_path }}"
+    backup: true
+    owner: root
+    group: wheel
+    mode: 0644
+  register: config
+  tags: copy
+
+- name: sync  # Sync Master to Backup
+  ansible.builtin.command: "{{ item }}"
+  throttle: 1
+  with_items:
+    - configctl filter sync
+  when: config.changed
+  tags:
+    - sync
+    - copy
+
+- name: reload
+  ansible.builtin.command: "{{ item }}"
+  throttle: 1
+  with_items:
+    - configctl service reload all
+    - configctl webgui restart
+  when: config.changed
+  tags: reload
+...

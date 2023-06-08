@@ -1,0 +1,22 @@
+---
+
+- name: virtualip with arp proxy mode
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/virtualip/vip[interface/text()="{{ floating_ip_arp_proxy.interface }}" and subnet/text()="{{ floating_ip_arp_proxy.subnet }}"]/{{ item.key }}
+    value: "{{ item.value }}"
+    pretty_print: true
+  loop: "{{ floating_ip_arp_proxy | dict2items }}"
+
+
+- name: virtualip attribute uuid
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/virtualip/vip[interface/text()="{{ floating_ip_arp_proxy.interface }}" and subnet/text()="{{ floating_ip_arp_proxy.subnet }}"]
+    attribute: uuid
+    value: "{{ (floating_ip.ip_address + '_arp_proxy') | to_uuid }}"
+    pretty_print: true
+
+...

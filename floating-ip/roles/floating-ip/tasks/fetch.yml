@@ -1,0 +1,8 @@
+---
+- name: fetch
+  ansible.builtin.fetch:
+    src: "{{ config_path }}"
+    dest: "{{ local_config_path }}"
+    flat: true
+    backup: true
+...

@@ -1,0 +1,13 @@
+floating_ips:
+ - ip_address: 45.157.60.200
+   vlan: 500
+   switch_interface: fa1/0
+ - ip_address: 45.157.60.201
+   vlan: 510
+   switch_interface: fa1/1
+ - ip_address: 45.157.60.202
+   vlan: 520
+   switch_interface: fa1/2
+ - ip_address: 45.157.60.203
+   vlan: 530
+   switch_interface: fa1/3

@@ -1,0 +1,16 @@
+---
+# This playbook config add VM's floating Ips configuration.
+# Apply only to the Master instance, as the role include a task that sync with the Backup.
+
+- name: Configure Opnsense
+  hosts: opnsenses
+  roles:
+    - floating-ip
+
+- name: Configure Ciscp switch
+  hosts: switches
+  tasks:
+  - name: Ensure apache is at the latest version
+    ansible.builtin.yum:
+      name: httpd
+      state: latest

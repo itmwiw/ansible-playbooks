@@ -1,0 +1,44 @@
+---
+
+# remote path of the config
+config_path: /conf/config.xml
+
+# local path for the config
+local_config_path: /tmp/config-{{ inventory_hostname }}.xml
+
+
+floating_ip_gateway:
+  interface: "lan"
+  gateway: "{{ floating_ip.ip_address }}"
+  name: "ip_public_{{ floating_ip.ip_address.split('.')[3] }}"
+  priority: "255"
+  weight: "1"
+  ipprotocol: "inet"
+  monitor_disable: "1"
+  fargw: "1"
+
+floating_ip_route:
+  network: "{{ floating_ip.ip_address }}/32"
+  gateway: "ip_public_{{ floating_ip.ip_address.split('.')[3] }}"
+  disabled: "0"
+
+floating_ip_filter:
+  type: "pass"
+  interface: "lan"
+  ipprotocol: "inet"
+  statetype: "keep state"
+  direction: "in"
+  quick: "1"
+  source/address: "{{ floating_ip.ip_address }}"
+  destination/any: "1"
+
+floating_ip_arp_proxy:
+  interface: wan
+  mode: proxyarp
+  subnet: "{{ floating_ip.ip_address }}"
+  subnet_bits: 32
+  descr: "Proxy ARP {{ floating_ip.ip_address }}"
+  noexpand: "0"
+  nobind: "0"
+  advbase: "1"
+  advskew: "0"
