@@ -14,7 +14,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/staticroutes/route[descr/text()="Route to {{floating_ip}}"]
     attribute: uuid
-    value: "{{ floating_ip | to_uuid }}"
+    value: "{{ floating_ip + '_route' | to_uuid }}"
     pretty_print: true
 
 ...
