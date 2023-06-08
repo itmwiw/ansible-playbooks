@@ -47,8 +47,9 @@ copy running-config startup-config
 
 == Run the playbook
 
-- Install dependencies:
+- Install dependencies and collections:
 sudo apt install python3-lxml
+ansible-galaxy collection install cisco.ios
 
 
 - Add floating Ips configuration:

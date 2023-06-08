@@ -7,10 +7,41 @@
   roles:
     - floating-ip
 
-- name: Configure Ciscp switch
+- name: Configure Cisco switch
   hosts: switches
   tasks:
-  - name: Ensure apache is at the latest version
-    ansible.builtin.yum:
-      name: httpd
-      state: latest
+  
+  - name: Create or Merge Vlans
+    cisco.ios.ios_vlans:
+      config:
+      - name: "{{ 'Vlan_' + item.vlan }}"
+        vlan_id: "{{ item.vlan }}"
+        state: active
+      state: merged
+    loop: "{{ floating_ips }}"
+    when: floating_ips is defined
+
+  - name: Configure Untagged Interfaces
+    cisco.ios.ios_l2_interfaces:
+      config:
+      - name: "{{ item.switch_interface }}"
+        mode: access
+        access:
+          vlan: "{{ item.vlan }}"
+        encapsulation: dot1q
+      state: merged
+    loop: "{{ floating_ips }}"
+    when: floating_ips is defined         
+
+  - name: Configure Untagged Interfaces
+    cisco.ios.ios_l2_interfaces:
+      config:
+      - name: GigabitEthernet0/2
+        mode: trunk
+        trunk:
+          allowed_vlans: 10-20,40
+          native_vlan: 1
+      state: merged
+    loop: "{{ floating_ips }}"
+    when: trunk is defined 
+
