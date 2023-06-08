@@ -49,6 +49,7 @@ copy running-config startup-config
 
 - Install dependencies and collections:
 sudo apt install python3-lxml
+pip install ansible-pylibssh
 ansible-galaxy collection install cisco.ios
 
 

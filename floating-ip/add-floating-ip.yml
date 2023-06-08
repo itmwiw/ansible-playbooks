@@ -19,6 +19,16 @@
         state: active
       state: merged
     loop: "{{ floating_ips }}"
+    when: 
+    - floating_ips is defined
+    - trunk is defined
+ 
+  - name: Create Vlans
+    cisco.ios.ios_config:
+      lines: 
+      - vlan {{ item.vlan }}
+      - name {{ 'Vlan_' + item.vlan }}
+    loop: "{{ floating_ips }}"
     when: floating_ips is defined
 
   - name: Configure Untagged Interfaces
@@ -31,7 +41,7 @@
         encapsulation: dot1q
       state: merged
     loop: "{{ floating_ips }}"
-    when: floating_ips is defined         
+    when: floating_ips is defined
 
   - name: Configure Untagged Interfaces
     cisco.ios.ios_l2_interfaces:
