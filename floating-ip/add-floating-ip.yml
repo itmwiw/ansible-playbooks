@@ -10,18 +10,6 @@
 - name: Configure Cisco switch
   hosts: switches
   tasks:
-  
-  - name: Create or Merge Vlans
-    cisco.ios.ios_vlans:
-      config:
-      - name: "{{ 'Vlan_' + item.vlan }}"
-        vlan_id: "{{ item.vlan }}"
-        state: active
-      state: merged
-    loop: "{{ floating_ips }}"
-    when: 
-    - floating_ips is defined
-    - trunk is defined
  
   - name: Create Vlans
     cisco.ios.ios_config:
@@ -38,20 +26,16 @@
         mode: access
         access:
           vlan: "{{ item.vlan }}"
-        encapsulation: dot1q
       state: merged
     loop: "{{ floating_ips }}"
     when: floating_ips is defined
-
-  - name: Configure Untagged Interfaces
-    cisco.ios.ios_l2_interfaces:
-      config:
-      - name: GigabitEthernet0/2
-        mode: trunk
-        trunk:
-          allowed_vlans: 10-20,40
-          native_vlan: 1
-      state: merged
-    loop: "{{ floating_ips }}"
-    when: trunk is defined 
+      
+  - name: Configure tagged Interfaces
+    cisco.ios.ios_config:
+      lines:
+      - switchport mode trunk
+      - switchport trunk allowed vlan "{{ '1,1002-1005,' + (floating_ips | map(attribute='vlan') | flatten | join(',')) }}"
+      parents: "{{ 'interface ' + item }}"
+    loop: "{{ switch_trunk_interfaces }}"
+    when: switch_trunk_interfaces is defined 
 

@@ -11,3 +11,7 @@ floating_ips:
  - ip_address: "45.157.60.203"
    vlan: "530"
    switch_interface: "fa1/3"
+
+switch_trunk_interfaces:
+- "fa1/14"
+- "fa1/15"
