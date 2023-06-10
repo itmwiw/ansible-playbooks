@@ -30,7 +30,7 @@ floating_ip_filter:
   direction: "in"
   quick: "1"
   source/address: "{{ floating_ip.ip_address }}"
-  destination/any: "1"
+  destination/network: "wan" # This should not be set to any, otherwise inter-vlans traffic would be allowed
 
 floating_ip_arp_proxy:
   interface: wan
@@ -59,11 +59,12 @@ floating_ip_vlan_interface:
     ipaddr: "192.168.{{ floating_ip.vlan[-2:] | int }}.{{ hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2] | split('.') | last }}"
     subnet: "24"
 
-virtualips:
-  - vhid: 1
-    settings:
-      interface: wan
-      mode: carp
-      subnet: 192.168.102.253
-      subnet_bits: 24
-      descr: 'Virtual Wan IP'
+floating_ip_ha:
+  enabled: true
+  vlan_carp:
+    vhid: 4
+    interface: "vlan{{ floating_ip.vlan }}"
+    mode: carp
+    subnet: "192.168.{{ floating_ip.vlan[-2:] | int }}.1"
+    subnet_bits: 24
+    descr: "Vlan {{ floating_ip.vlan }} Virtual IP"
