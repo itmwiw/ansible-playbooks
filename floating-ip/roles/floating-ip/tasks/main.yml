@@ -8,7 +8,27 @@
     apply:
       tags: fetch
 
-- name: gateways
+- name: Configure vlans
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: vlans.yml
+  loop: "{{ floating_ips }}"
+  loop_control:
+    loop_var: floating_ip
+  when: floating_ips is defined
+
+- name: Configure vlan interfaces
+  tags:
+    - always
+  ansible.builtin.include_tasks:
+    file: interface.yml
+  loop: "{{ floating_ips }}"
+  loop_control:
+    loop_var: floating_ip
+  when: floating_ips is defined
+
+- name: Configure gateways
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -18,7 +38,7 @@
     loop_var: floating_ip
   when: floating_ips is defined
 
-- name: staticroutes
+- name: Configure staticroutes
   tags:
     - always
   ansible.builtin.include_tasks:

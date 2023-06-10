@@ -8,7 +8,7 @@ local_config_path: /tmp/config-{{ inventory_hostname }}.xml
 
 
 floating_ip_gateway:
-  interface: "lan"
+  interface: "vlan{{ floating_ip.vlan }}"
   gateway: "{{ floating_ip.ip_address }}"
   name: "ip_public_{{ floating_ip.ip_address.split('.')[3] }}"
   priority: "255"
@@ -24,7 +24,7 @@ floating_ip_route:
 
 floating_ip_filter:
   type: "pass"
-  interface: "lan"
+  interface: "vlan{{ floating_ip.vlan }}"
   ipprotocol: "inet"
   statetype: "keep state"
   direction: "in"
@@ -42,3 +42,28 @@ floating_ip_arp_proxy:
   nobind: "0"
   advbase: "1"
   advskew: "0"
+
+floating_ip_vlan:
+  if: "vtnet0" #device name for lan interface
+  tag: "{{ floating_ip.vlan }}"
+  pcp: "0"
+  descr: "vlan {{ floating_ip.vlan }}"
+  vlanif: "vlan0.{{ floating_ip.vlan }}"
+
+floating_ip_vlan_interface:
+  name: "vlan{{ floating_ip.vlan }}"
+  settings:
+    if: "vlan0.{{ floating_ip.vlan }}"
+    descr: "VLAN{{ floating_ip.vlan }}"
+    enable: "1"
+    ipaddr: "192.168.{{ floating_ip.vlan[-2:] | int }}.{{ hostvars[inventory_hostname]['ansible_env'].SSH_CONNECTION.split(' ')[2] | split('.') | last }}"
+    subnet: "24"
+
+virtualips:
+  - vhid: 1
+    settings:
+      interface: wan
+      mode: carp
+      subnet: 192.168.102.253
+      subnet_bits: 24
+      descr: 'Virtual Wan IP'
