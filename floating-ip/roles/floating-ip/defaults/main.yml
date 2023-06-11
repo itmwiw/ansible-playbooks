@@ -23,14 +23,25 @@ floating_ip_route:
   disabled: "0"
 
 floating_ip_filter:
-  type: "pass"
-  interface: "vlan{{ floating_ip.vlan }}"
-  ipprotocol: "inet"
-  statetype: "keep state"
-  direction: "in"
-  quick: "1"
-  source/address: "{{ floating_ip.ip_address }}"
-  destination/network: "wan" # This should not be set to any, otherwise inter-vlans traffic would be allowed
+  vlan:
+    type: "pass"
+    interface: "vlan{{ floating_ip.vlan }}"
+    ipprotocol: "inet"
+    statetype: "keep state"
+    direction: "in"
+    quick: "1"
+    source/address: "{{ floating_ip.ip_address }}"
+    destination/network: "wan" # This should not be set to any, otherwise inter-vlans traffic would be allowed
+  wan:
+    type: "pass"
+    interface: "wan"
+    ipprotocol: "inet"
+    statetype: "keep state"
+    direction: "in"
+    quick: "1"
+    source/network: "wan"
+    destination/address: "{{ floating_ip.ip_address }}"
+
 
 floating_ip_arp_proxy:
   interface: wan
