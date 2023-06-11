@@ -6,6 +6,8 @@ config_path: /conf/config.xml
 # local path for the config
 local_config_path: /tmp/config-{{ inventory_hostname }}.xml
 
+opnsense_role: ''
+
 
 floating_ip_gateway:
   interface: "vlan{{ floating_ip.vlan }}"
@@ -78,4 +80,7 @@ floating_ip_ha:
     mode: carp
     subnet: "192.168.{{ floating_ip.vlan[-2:] | int }}.1"
     subnet_bits: 24
+    advbase: 1
+    advskew: "{{ '0' if (opnsense_role == 'master') else '100' }}"
+    password: "vlan{{ floating_ip.vlan }}carp"
     descr: "Vlan {{ floating_ip.vlan }} Virtual IP"
