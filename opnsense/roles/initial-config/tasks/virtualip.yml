@@ -15,7 +15,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/virtualip/vip[vhid/text()="{{ virtualip.vhid }}"]
     attribute: uuid
-    value: "{{ (virtualip.settings.ip_address + '_carp') | to_uuid }}"
+    value: "{{ (virtualip.settings.subnet + '_carp') | to_uuid }}"
     pretty_print: true
 
 
