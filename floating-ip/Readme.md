@@ -93,28 +93,27 @@ enable secret enablepassword
 exit
 copy running-config startup-config
 
--- Vlan management --
-conf t
-vlan 11
-name Accounting11
-exit
-int fa1/0
-switchport mode access
-switchport access vlan 11
-exit
-vlan 12
-name Accounting12
-exit
-int fa1/1
-switchport mode access
-switchport access vlan 12
-exit
-int fa1/2
-switchport mode trunk
-switchport trunk allowed vlan 1,1002-1005,11,12
-end
-copy running-config startup-config
+# Non testé à cause de la version trop ancienne du switch de test
 
+Optionally, you can configure the router to disable SSH password authentication:
+no ip ssh server authenticate user password
+no ip ssh server authenticate user keyboard
+
+
+ip ssh pubkey-chain # doesn't work in the testing switch
+username admin
+key-string
+AAAAC3NzaC1lZDI1NTE5AAAAIC/dWjs+ZIdD3glfevXkLs9dqnp/i7xGi5kXytrbHzZb  
+eIR1lyAnDJIsYbTbcdm+n5KiQnCt2561MpN4yOFpajFNM/dqH7/jYaqaicHCSV2F       
+RGauEp7FzN/uXxsX7mii6qOuxovl9OflLpXcvH5QH6551ycmL8nIv8UCY8uayiGI        
+INsC0LyKEctWDW6qWp43T7rhcP0y4JoMraTCZLIPNE0Bo0bHgnGLg6fEvJmyB3sX       
+H+7BaxHdYKg2OcIgVqYzclWhDwxj32kqd1BCq089iBMrb4QppDU2eM/t22iK29mn      
+eqOGTiCkxB80ix+KULT9okmqkj3TbhCpunTfuPCCRNrjqndBsw==
+exit
+exit
+exit
+
+# Autres
 -- enable gui -- 
 configure terminal
 ip http server
