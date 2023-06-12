@@ -1,0 +1,93 @@
+---
+
+interfaces:
+  - name: lan
+    settings:
+      if: vtnet0
+      descr: LAN
+      enable: 1
+      ipaddr: "{{ opnsense_interface.lan.ip_address }}"
+      subnet: "{{ opnsense_interface.lan.subnet_bits }}"
+  - name: wan
+    settings:
+      if: vtnet1
+      descr: WAN
+      enable: 1
+      ipaddr: "{{ opnsense_interface.wan.ip_address }}"
+      subnet: "{{ opnsense_interface.wan.subnet_bits }}"
+  - name: opt1
+    settings:
+      if: vtnet2
+      descr: PFSYNC
+      enable: 1
+      ipaddr: "{{ opnsense_interface.pfsync.ip_address }}"
+      subnet: "{{ opnsense_interface.pfsync.subnet_bits }}"
+
+dhcpd:
+  - if: lan
+    settings:
+      enable: 0
+
+filter:
+  - descr: 'allow carp on WAN interface'
+    settings:
+      type: pass
+      interface: wan
+      ipprotocol: inet
+      statetype: 'keep state'
+      direction: in
+      quick: 1
+      protocol: carp
+      source/any: 1
+      destination/any: 1
+  - descr: 'allow carp on LAN interface'
+    settings:
+      type: pass
+      interface: lan
+      ipprotocol: inet
+      statetype: 'keep state'
+      direction: in
+      quick: 1
+      protocol: carp
+      source/any: 1
+      destination/any: 1
+  - descr: 'allow all on PFSYNC interface'
+    settings:
+      type: pass
+      interface: opt1
+      ipprotocol: inet
+      statetype: 'keep state'
+      direction: in
+      quick: 1
+      source/any: 1
+      destination/any: 1
+
+nat:
+  outbound:
+    mode: advanced
+    rules:
+    - descr: 'Nat to virtual Wan IP'
+      settings:
+        source/network: lan
+        interface: wan
+        target: "{{ opnsense_vip.wan.ip_address }}"
+
+virtualips:
+  - vhid: 1
+    settings:
+      interface: wan
+      mode: carp
+      subnet: "{{ opnsense_vip.wan.ip_address }}"
+      subnet_bits: "{{ opnsense_vip.wan.subnet_bits }}"
+      advbase: 1
+      advskew: "{{ '0' if (opnsense_role == 'master') else '100' }}"
+      descr: 'Virtual Wan IP'
+  - vhid: 3
+    settings:
+      interface: lan
+      mode: carp
+      subnet: "{{ opnsense_vip.lan.ip_address }}"
+      subnet_bits: "{{ opnsense_vip.lan.subnet_bits }}"
+      advbase: 1
+      advskew: "{{ '0' if (opnsense_role == 'master') else '100' }}"
+      descr: 'Virtual Lan IP'

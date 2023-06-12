@@ -1,28 +1,15 @@
-# HA configuration
-interfaces:
-  - name: lan
-    settings:
-      if: vtnet0
-      descr: LAN
-      enable: 1
-      ipaddr: 192.168.1.252
-      subnet: 24
-  - name: wan
-    settings:
-      if: vtnet1
-      descr: WAN
-      enable: 1
-      ipaddr: 192.168.102.252
-      subnet: 24
-  - name: opt1
-    settings:
-      if: vtnet2
-      descr: PFSYNC
-      enable: 1
-      ipaddr: 10.0.0.2
-      subnet: 24
+opnsense_interface:
+  lan:
+    ip_address: 192.168.1.252
+	subnet_bits: 24
+  wan:
+    ip_address: 192.168.102.252
+	subnet_bits: 24
+  pfsync:
+    ip_address: 10.0.0.2
+	subnet_bits: 24
 
 hasync:
   pfsyncenabled: "on"
   pfsyncinterface: "opt1"
-  pfsyncpeerip: "10.0.0.1"
+  pfsyncpeerip: "10.0.0.1" 
