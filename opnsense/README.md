@@ -13,5 +13,3 @@ sudo apt install python3-lxml
 - Run the initial-config-ha paybook:
 ansible-playbook initial-config-ha.yml -i hosts.ini
 
-- Add floating Ips configuration:
-ansible-playbook add-floating-ip.yml -i hosts.ini
