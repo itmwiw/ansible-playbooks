@@ -3,13 +3,13 @@ opnsense_role: master
 opnsense_interface:
   lan:
     ip_address: 192.168.1.251
-	subnet_bits: 24
+    subnet_bits: 24
   wan:
     ip_address: 192.168.102.251
-	subnet_bits: 24
+    subnet_bits: 24
   pfsync:
     ip_address: 10.0.0.1
-	subnet_bits: 24
+    subnet_bits: 24
 
 hasync:
   pfsyncenabled: "on"
