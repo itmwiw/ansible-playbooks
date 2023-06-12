@@ -29,7 +29,7 @@
   loop: "{{ floating_ip_ha.vlan_carp | dict2items }}"
   when: floating_ip_ha.enabled 
   
-- name: virtualip attribute uuid - arp proxy mode
+- name: virtualip attribute uuid - CARP
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
