@@ -1,5 +1,6 @@
 infra_secret: "{{ hostvars.localhost.infra_secret }}"
 ansible_ssh_private_key_file: "~/.ssh/opnsense"
+ansible_user: root
 
 opnsense_vip:
   lan: 
@@ -15,7 +16,7 @@ vault:
   auth_mount_point: "jwt-hub"
   jwt: "{{ lookup('file', '../../jwt') }}"
   role_id: "vault-operator"
-  validate_certs : "false"
+  validate_certs: "false"
   engine_mount_point: "kv"
   secret_path: "infrastructure"
   # You have to define the following keys under the above secret path in Vault: cisco_ssh, cisco_admin, cisco_enable_admin, opnsense_ssh, opnsense_admin 
