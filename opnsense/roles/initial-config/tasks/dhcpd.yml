@@ -1,37 +1,37 @@
 ---
 
-- name: dhcpd - parameters
+- name: Configure dhcpd - parameters.
   delegate_to: localhost
-  xml:
+  community.general.xml:
     path: "{{ local_config_path }}"
     xpath: /opnsense/dhcpd/{{ dhcpd_if.if }}/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: yes
+    pretty_print: "true"
   loop: "{{ dhcpd_if.settings | dict2items }}"
   when:
-    - item.key != 'enable'
+    - item.key != "enable"
     
-- name: dhcpd - enable
+- name: Configure dhcpd - enable.
   delegate_to: localhost
-  xml:
+  community.general.xml:
     path: "{{ local_config_path }}"
-    xpath: /opnsense/dhcpd/{{ dhcpd_if.if }}/{{ item.key }}
-    pretty_print: yes
+    xpath: "/opnsense/dhcpd/{{ dhcpd_if.if }}/{{ item.key }}"
+    pretty_print: "true"
   loop: "{{ dhcpd_if.settings | dict2items }}"
   when:
-    - item.key == 'enable'
-    - item.value == 1
+    - item.key == "enable"
+    - item.value == "1"
     
-- name: dhcpd - disable
+- name: Configure dhcpd - disable.
   delegate_to: localhost
-  xml:
+  community.general.xml:
     path: "{{ local_config_path }}"
-    xpath: /opnsense/dhcpd/{{ dhcpd_if.if }}/{{ item.key }}
+    xpath: "/opnsense/dhcpd/{{ dhcpd_if.if }}/{{ item.key }}"
     state: absent
     pretty_print: yes
   loop: "{{ dhcpd_if.settings | dict2items }}"
   when:
-    - item.key == 'enable'
-    - item.value == 0
+    - item.key == "enable"
+    - item.value == "0"
 
 ...

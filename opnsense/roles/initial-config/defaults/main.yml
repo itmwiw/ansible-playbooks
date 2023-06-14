@@ -7,4 +7,3 @@ config_path: /conf/config.xml
 local_config_path: /tmp/config-{{ inventory_hostname }}.xml
 
 opnsense_role: ''
-
