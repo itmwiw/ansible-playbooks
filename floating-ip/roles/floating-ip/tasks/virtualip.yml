@@ -27,7 +27,7 @@
     value: "{{ item.value }}"
     pretty_print: true
   loop: "{{ floating_ip_ha.vlan_carp | dict2items }}"
-  when: floating_ip_ha.enabled 
+  when: floating_ip_ha.enabled
 
 - name: Virtualip attribute uuid - CARP.
   delegate_to: localhost
@@ -37,6 +37,6 @@
     attribute: uuid
     value: "{{ (floating_ip.ip_address + '_carp') | to_uuid }}"
     pretty_print: true
-  when: floating_ip_ha.enabled 
+  when: floating_ip_ha.enabled
 
 ...
