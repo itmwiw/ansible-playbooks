@@ -48,8 +48,9 @@ copy running-config startup-config
 == Run the playbook
 
 - Install dependencies and collections:
-sudo apt install python3-lxml
-pip install ansible-pylibssh
+sudo apt install python3-lxml # for opnsense/xml
+pip install ansible-pylibssh # for cisco
+pip install hvac # for vault
 ansible-galaxy collection install cisco.ios
 
 
