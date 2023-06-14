@@ -25,4 +25,4 @@ hasync:
   synchronizewidgets: "on"
   synchronizetoip: "10.0.0.2"
   username: "root"
-  password: "{{ lookup('file', '../../opnsense-password') }}"
+  password: "{{ infra_secret.secret.cisco_password }}"

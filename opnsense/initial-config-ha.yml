@@ -1,6 +1,37 @@
 ---
 # This playbook config two opnsenses in HA mode.
 
+- name: Get secrets from Hashicorp vault
+  hosts: localhost
+  tasks:
+
+  - name: Login to vault
+    community.hashi_vault.vault_login:
+      url: "{{ vault.url }}"
+      auth_method: "{{ vault.auth_method }}"
+      mount_point: "{{ vault.auth_mount_point }}"
+      jwt: "{{ vault.jwt }}"
+      role_id: "{{ vault.role_id }}"
+      validate_certs: "{{ vault.validate_certs }}"
+    register: login_data
+
+  - name: Retrieve infrastructure secrets
+    community.hashi_vault.vault_kv2_get:
+      url: "{{ vault.url }}"
+      auth_method: token
+      token: '{{ login_data | community.hashi_vault.vault_login_token }}'
+      engine_mount_point: "{{ vault.engine_mount_point }}"
+      path: "{{ vault.secret_path }}"
+      validate_certs : "{{ vault.validate_certs }}"
+      token_validate: "false"
+    register: infra_secret
+
+  - name: Copy SSH private key - opnsense
+    copy:
+      content: "{{ infra_secret.secret.opnsense_ssh }}" 
+      dest: "~/.ssh/opnsense"
+      mode: 0600
+
 - hosts: opnsenses_ha
   roles:
     - initial-config
