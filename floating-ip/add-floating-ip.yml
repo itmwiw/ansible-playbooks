@@ -2,6 +2,31 @@
 # This playbook config add VM's floating Ips configuration.
 # Apply only to the Master instance, as the role include a task that sync with the Backup.
 
+- name: Get secrets from Hashicorp vault
+  hosts: localhost
+  tasks:
+
+  - name: Login to vault
+    community.hashi_vault.vault_login:
+      url: "{{ vault.url }}"
+      auth_method: "{{ vault.auth_method }}"
+      mount_point: "{{ vault.auth_mount_point }}"
+      jwt: "{{ vault.jwt }}"
+      role_id: "{{ vault.role_id }}"
+      validate_certs: "{{ vault.validate_certs }}"
+    register: login_data
+
+  - name: Retrieve infrastructure secrets
+    community.hashi_vault.vault_kv2_get:
+      url: "{{ vault.url }}"
+      auth_method: token
+      token: '{{ login_data | community.hashi_vault.vault_login_token }}'
+      engine_mount_point: "{{ vault.engine_mount_point }}"
+      path: "{{ vault.secret_path }}"
+      validate_certs : "{{ vault.validate_certs }}"
+    register: infra_secret
+
+
 - name: Configure Opnsense
   hosts: opnsenses
   roles:

@@ -1,2 +1,2 @@
-ansible_ssh_private_key_file: ~/.ssh/mykey
+ansible_ssh_private_key_file: "{{ infra_secret.opnsense_ssh }}"
 ansible_user: root

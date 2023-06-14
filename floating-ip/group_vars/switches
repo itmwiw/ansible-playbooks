@@ -1,9 +1,9 @@
-ansible_ssh_private_key_file: ~/.ssh/mykey
+ansible_ssh_private_key_file: "{{ infra_secret.cisco_ssh }}" 
 ansible_connection: ansible.netcommon.network_cli
 ansible_network_os: cisco.ios.ios
 ansible_user: admin
 # temporary as the testing swich is quite old and the 'ip ssh pubkey-chain' doesn't work.
-ansible_password: "{{ lookup('file', '../../switch-password') }}"
+ansible_password: "{{ infra_secret.cisco_password }}"
 ansible_become: true
 ansible_become_method: enable
-ansible_become_password: "{{ lookup('file', '../../switch-enable-password') }}"
+ansible_become_password: "{{ infra_secret.cisco_enable_password }}"
