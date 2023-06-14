@@ -1,6 +1,6 @@
 ---
 
-- name: vlans - create vlans
+- name: Create vlans.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
@@ -9,7 +9,7 @@
     pretty_print: true
   loop: "{{ floating_ip_vlan | dict2items }}"
 
-- name: vlan attribute uuid
+- name: Set vlan uuid attribute.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"

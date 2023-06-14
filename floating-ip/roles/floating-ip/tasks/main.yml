@@ -1,6 +1,6 @@
 ---
 
-- name: fetch
+- name: Fetch xml config.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -8,7 +8,7 @@
     apply:
       tags: fetch
 
-- name: Configure vlans
+- name: Configure vlans.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -18,7 +18,7 @@
     loop_var: floating_ip
   when: floating_ips is defined
 
-- name: Configure vlan interfaces
+- name: Configure vlan interfaces.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -28,7 +28,7 @@
     loop_var: floating_ip
   when: floating_ips is defined
 
-- name: Configure gateways
+- name: Configure gateways.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -38,7 +38,7 @@
     loop_var: floating_ip
   when: floating_ips is defined
 
-- name: Configure staticroutes
+- name: Configure staticroutes.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -48,7 +48,7 @@
     loop_var: floating_ip
   when: floating_ips is defined
 
-- name: Configure firewall rules
+- name: Configure firewall rules.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -58,7 +58,7 @@
     loop_var: floating_ip
   when: floating_ips is defined
 
-- name: Configure ARP Proxy and Carp
+- name: Configure ARP Proxy and Carp.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -68,33 +68,18 @@
     loop_var: floating_ip
   when: floating_ips is defined
 
-- name: copy
+- name: Copy the xml config back to the device.
   ansible.builtin.copy:
     src: "{{ local_config_path }}"
     dest: "{{ config_path }}"
     backup: true
     owner: root
     group: wheel
-    mode: 0644
+    mode: "0644"
   register: config
   tags: copy
+  notify:
+    - Sync
+    - Reload config
 
-- name: sync  # Sync Master to Backup
-  ansible.builtin.command: "{{ item }}"
-  throttle: 1
-  with_items:
-    - configctl filter sync
-  when: config.changed
-  tags:
-    - sync
-    - copy
-
-- name: reload
-  ansible.builtin.command: "{{ item }}"
-  throttle: 1
-  with_items:
-    - configctl service reload all
-    - configctl webgui restart
-  when: config.changed
-  tags: reload
 ...

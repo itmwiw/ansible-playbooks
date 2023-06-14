@@ -1,6 +1,6 @@
 ---
 
-- name: virtualip settings - arp proxy mode
+- name: Virtualip settings - arp proxy mode.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
@@ -9,7 +9,7 @@
     pretty_print: true
   loop: "{{ floating_ip_arp_proxy | dict2items }}"
 
-- name: virtualip attribute uuid - arp proxy mode
+- name: Virtualip attribute uuid - arp proxy mode.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
@@ -19,7 +19,7 @@
     pretty_print: true
 
 # Only if HA is enabled
-- name: virtualip settings - CARP
+- name: Virtualip settings - CARP.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
@@ -28,8 +28,8 @@
     pretty_print: true
   loop: "{{ floating_ip_ha.vlan_carp | dict2items }}"
   when: floating_ip_ha.enabled 
-  
-- name: virtualip attribute uuid - CARP
+
+- name: Virtualip attribute uuid - CARP.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"

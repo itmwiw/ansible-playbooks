@@ -35,7 +35,6 @@ floating_ip_filter:
     source/network: "wan"
     destination/address: "{{ floating_ip.ip_address }}"
 
-
 floating_ip_arp_proxy:
   interface: wan
   mode: proxyarp
@@ -48,7 +47,7 @@ floating_ip_arp_proxy:
   advskew: "0"
 
 floating_ip_vlan:
-  if: "vtnet0" #device name for lan interface
+  if: "vtnet0" # Device name for lan interface
   tag: "{{ floating_ip.vlan }}"
   pcp: "0"
   descr: "vlan {{ floating_ip.vlan }}"
@@ -68,7 +67,7 @@ floating_ip_ha:
   vlan_carp:
     vhid: 4
     interface: "vlan{{ floating_ip.vlan }}"
-    mode: carp
+    mode: "carp"
     subnet: "192.168.{{ floating_ip.vlan[-2:] | int }}.1"
     subnet_bits: 24
     advbase: 1

@@ -1,6 +1,6 @@
 ---
 
-- name: filters settings - vlan to wan
+- name: Filters settings - vlan to wan.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
@@ -9,7 +9,7 @@
     pretty_print: true
   loop: "{{ floating_ip_filter.vlan | dict2items }}"
 
-- name: filters settings - wan to vlan
+- name: Filters settings - wan to vlan.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"

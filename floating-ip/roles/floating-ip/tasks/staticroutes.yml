@@ -1,5 +1,5 @@
 ---
-- name: staticroutes
+- name: Configure staticroutes.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
@@ -8,7 +8,7 @@
     pretty_print: true
   loop: "{{ floating_ip_route | dict2items }}"
 
-- name: route attribute uuid
+- name: Set route uuid attribute.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"

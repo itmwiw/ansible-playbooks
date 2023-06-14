@@ -1,6 +1,6 @@
 ---
 
-- name: interfaces - settings for an interface
+- name: Interfaces - settings for an interface.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
