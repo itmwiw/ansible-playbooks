@@ -1,6 +1,6 @@
 ---
 
-- name: fetch
+- name: Fetch xml config.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -68,23 +68,8 @@
     mode: 0644
   register: config
   tags: copy
+  notify:
+    - Sync
+    - Reload config    
 
-- name: Sync Master to slave.
-  ansible.builtin.command: "{{ item }}"
-  throttle: 1
-  with_items:
-    - configctl filter sync
-  when: config.changed
-  tags:
-    - sync
-    - copy
-
-- name: Reload configuration.
-  ansible.builtin.command: "{{ item }}"
-  throttle: 1
-  with_items:
-    - configctl service reload all
-    - configctl webgui restart
-  when: config.changed
-  tags: reload
 ...

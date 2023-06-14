@@ -1,6 +1,6 @@
 ---
 
-- name: nat outbound - mode
+- name: Configure nat outbound mode.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
@@ -9,7 +9,7 @@
     pretty_print: true
   when: nat.outbound.mode is defined
 
-- name: nat outbound - rules
+- name: Configure nat outbound rules.
   ansible.builtin.include_tasks:
     file: nat-outbound.yml
   loop: "{{ nat.outbound.rules | default([]) }}"

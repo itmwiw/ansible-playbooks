@@ -1,0 +1,16 @@
+---
+
+- name: Sync #Sync master to slave
+  ansible.builtin.command: "{{ item }}"
+  throttle: 1
+  with_items:
+    - configctl filter sync
+
+- name: Reload config
+  ansible.builtin.command: "{{ item }}"
+  throttle: 1
+  with_items:
+    - configctl service reload all
+    - configctl webgui restart
+
+...

@@ -1,6 +1,6 @@
 ---
 
-- name: nat - rules
+- name: Configure nat outbound rules.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"

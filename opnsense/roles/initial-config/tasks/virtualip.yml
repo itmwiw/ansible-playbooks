@@ -1,6 +1,6 @@
 ---
 
-- name: virtualip settings - CARP
+- name: Virtualip settings - CARP.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
@@ -9,7 +9,7 @@
     pretty_print: true
   loop: "{{ virtualip.settings | dict2items }}"
 
-- name: virtualip attribute uuid - CARP
+- name: Virtualip attribute uuid - CARP.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
