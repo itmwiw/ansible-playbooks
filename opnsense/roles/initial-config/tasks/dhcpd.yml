@@ -6,7 +6,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/dhcpd/{{ dhcpd_if.if }}/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
   loop: "{{ dhcpd_if.settings | dict2items }}"
   when:
     - item.key != "enable"
@@ -16,7 +16,7 @@
   community.general.xml:
     path: "{{ local_config_path }}"
     xpath: "/opnsense/dhcpd/{{ dhcpd_if.if }}/{{ item.key }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
   loop: "{{ dhcpd_if.settings | dict2items }}"
   when:
     - item.key == "enable"
@@ -28,7 +28,7 @@
     path: "{{ local_config_path }}"
     xpath: "/opnsense/dhcpd/{{ dhcpd_if.if }}/{{ item.key }}"
     state: absent
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
   loop: "{{ dhcpd_if.settings | dict2items }}"
   when:
     - item.key == "enable"

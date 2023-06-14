@@ -6,7 +6,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/gateways/gateway_item[name/text()="{{ floating_ip_gateway.name }}"]/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
   loop: "{{ floating_ip_gateway | dict2items }}"
 
 ...

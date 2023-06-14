@@ -6,7 +6,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/interfaces/{{ interface.name }}/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
   loop: "{{ interface.settings | dict2items }}"
 
 ...

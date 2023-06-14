@@ -6,7 +6,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/virtualip/vip[interface/text()="{{ floating_ip_arp_proxy.interface }}" and subnet/text()="{{ floating_ip_arp_proxy.subnet }}"]/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
   loop: "{{ floating_ip_arp_proxy | dict2items }}"
 
 - name: Virtualip attribute uuid - arp proxy mode.
@@ -16,7 +16,7 @@
     xpath: /opnsense/virtualip/vip[interface/text()="{{ floating_ip_arp_proxy.interface }}" and subnet/text()="{{ floating_ip_arp_proxy.subnet }}"]
     attribute: uuid
     value: "{{ (floating_ip.ip_address + '_arp_proxy') | to_uuid }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
 
 # Only if HA is enabled
 - name: Virtualip settings - CARP.
@@ -25,7 +25,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/virtualip/vip[interface/text()="{{ floating_ip_ha.vlan_carp.interface }}" and subnet/text()="{{ floating_ip_ha.vlan_carp.subnet }}"]/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
   loop: "{{ floating_ip_ha.vlan_carp | dict2items }}"
   when: floating_ip_ha.enabled
 
@@ -36,7 +36,7 @@
     xpath: /opnsense/virtualip/vip[interface/text()="{{ floating_ip_ha.vlan_carp.interface }}" and subnet/text()="{{ floating_ip_ha.vlan_carp.subnet }}"]
     attribute: uuid
     value: "{{ (floating_ip.ip_address + '_carp') | to_uuid }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
   when: floating_ip_ha.enabled
 
 ...

@@ -6,7 +6,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/virtualip/vip[vhid/text()="{{ virtualip.vhid }}"]/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
   loop: "{{ virtualip.settings | dict2items }}"
 
 - name: Virtualip attribute uuid - CARP.
@@ -16,7 +16,7 @@
     xpath: /opnsense/virtualip/vip[vhid/text()="{{ virtualip.vhid }}"]
     attribute: uuid
     value: "{{ (virtualip.settings.subnet + '_carp') | to_uuid }}"
-    pretty_print: "{{ pretty_print }}"
+    pretty_print: true
 
 
 ...
