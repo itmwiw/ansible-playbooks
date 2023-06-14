@@ -24,6 +24,7 @@
       engine_mount_point: "{{ vault.engine_mount_point }}"
       path: "{{ vault.secret_path }}"
       validate_certs : "{{ vault.validate_certs }}"
+      token_validate: "false"
     register: infra_secret
 
   - name: Copy SSH private key - opnsense
