@@ -1,6 +1,6 @@
 ---
 
-- name: Sync #Sync master to slave
+- name: Sync # Sync master to slave
   ansible.builtin.command: "{{ item }}"
   throttle: 1
   with_items:

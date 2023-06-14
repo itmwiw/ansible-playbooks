@@ -70,6 +70,6 @@
   tags: copy
   notify:
     - Sync
-    - Reload config    
+    - Reload config
 
 ...
