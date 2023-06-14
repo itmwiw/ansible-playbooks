@@ -26,11 +26,24 @@
       validate_certs : "{{ vault.validate_certs }}"
     register: infra_secret
 
+  - name: Copy SSH private key - opnsense
+    copy:
+      content: "{{ infra_secret.secret.opnsense_ssh }}" 
+      dest: "~/.ssh/opnsense"
+      mode: 0600
+
+  - name: Copy SSH private key - cisco
+    copy:
+      content: "{{ infra_secret.secret.cisco_ssh }}" 
+      dest: "~/.ssh/cisco"
+      mode: 0600
+
 
 - name: Configure Opnsense
   hosts: opnsenses
   roles:
     - floating-ip
+
 
 - name: Configure Cisco switch
   hosts: switches
