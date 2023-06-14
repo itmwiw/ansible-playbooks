@@ -6,7 +6,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/filter/rule[descr/text()="{{ filter_rule.descr }}"]/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: true
+    pretty_print: "{{ pretty_print }}"
   loop: "{{ filter_rule.settings | dict2items }}"
 
 ...

@@ -6,6 +6,6 @@
     path: "{{ local_config_path }}"
     xpath: "/opnsense/hasync/{{ item.key }}"
     value: "{{ item.value }}"
-    pretty_print: true
+    pretty_print: "{{ pretty_print }}"
   loop: "{{ hasync | dict2items | default([]) }}"
 ...

@@ -6,7 +6,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/nat/outbound/rule[descr/text()="{{ nat_outbound_rule.descr }}"]/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: true
+    pretty_print: "{{ pretty_print }}"
   loop: "{{ nat_outbound_rule.settings | dict2items }}"
 
 ...

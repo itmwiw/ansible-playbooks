@@ -6,7 +6,7 @@
     path: "{{ local_config_path }}"
     xpath: /opnsense/interfaces/{{ floating_ip_vlan_interface.name }}/{{ item.key }}
     value: "{{ item.value }}"
-    pretty_print: true
+    pretty_print: "{{ pretty_print }}"
   loop: "{{ floating_ip_vlan_interface.settings | dict2items }}"
 
 ...

@@ -6,7 +6,7 @@
     path: "{{ local_config_path }}"
     xpath: "/opnsense/nat/outbound/mode"
     value: "{{ nat.outbound.mode }}"
-    pretty_print: true
+    pretty_print: "{{ pretty_print }}"
   when: nat.outbound.mode is defined
 
 - name: Configure nat outbound rules.
