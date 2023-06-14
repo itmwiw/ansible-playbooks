@@ -1,7 +1,7 @@
 ---
 # This playbook config two opnsenses in HA mode.
 
-- name: Get secrets from Hashicorp vault
+- name: Get secrets from Hashicorp vault.
   hosts: localhost
   tasks:
 
