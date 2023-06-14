@@ -8,4 +8,5 @@
     value: "{{ item.value }}"
     pretty_print: true
   loop: "{{ hasync | dict2items | default([]) }}"
+  no_log: true # In order not to log opnsense password
 ...
