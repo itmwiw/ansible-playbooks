@@ -1,6 +1,6 @@
 ---
 
-- name: interfaces - settings for an interface
+- name: Configure the device's interfaces.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"

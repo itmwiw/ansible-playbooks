@@ -66,11 +66,11 @@ nat:
   outbound:
     mode: advanced
     rules:
-    - descr: 'Nat to virtual Wan IP'
-      settings:
-        source/network: lan
-        interface: wan
-        target: "{{ opnsense_vip.wan.ip_address }}"
+      - descr: 'Nat to virtual Wan IP'
+        settings:
+          source/network: lan
+          interface: wan
+          target: "{{ opnsense_vip.wan.ip_address }}"
 
 virtualips:
   - vhid: 1

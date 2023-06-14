@@ -6,7 +6,7 @@
   ansible.builtin.include_tasks:
     file: fetch.yml
 
-- name: Configure interfaces
+- name: Configure interfaces.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -16,7 +16,7 @@
     loop_var: interface
   when: interfaces is defined
 
-- name: Configure virtualips
+- name: Configure virtualips.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -25,8 +25,8 @@
   loop_control:
     loop_var: virtualip
   when: virtualips is defined
-      
-- name: Configure dhcp
+
+- name: Configure dhcp.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -36,7 +36,7 @@
     loop_var: dhcpd_if
   when: dhcpd is defined
 
-- name: Configure firewall rules
+- name: Configure firewall rules.
   tags:
     - always
   ansible.builtin.include_tasks:
@@ -46,19 +46,19 @@
     loop_var: filter_rule
   when: filter is defined
 
-- name: nat
+- name: Configure nat.
   tags:
     - always
   ansible.builtin.include_tasks:
-    file: nat.yml 
+    file: nat.yml
 
-- name: hasync
+- name: Configure hasync.
   tags:
     - always
   ansible.builtin.include_tasks:
     file: hasync.yml
 
-- name: copy
+- name: Copy the xml config back to the device.
   ansible.builtin.copy:
     src: "{{ local_config_path }}"
     dest: "{{ config_path }}"
@@ -69,7 +69,7 @@
   register: config
   tags: copy
 
-- name: sync  # Sync Master to Backup
+- name: Sync Master to slave.
   ansible.builtin.command: "{{ item }}"
   throttle: 1
   with_items:
@@ -79,7 +79,7 @@
     - sync
     - copy
 
-- name: reload 
+- name: Reload configuration.
   ansible.builtin.command: "{{ item }}"
   throttle: 1
   with_items:

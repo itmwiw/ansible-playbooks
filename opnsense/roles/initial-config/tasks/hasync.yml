@@ -1,6 +1,6 @@
 ---
 
-- name: hasync
+- name: Configure hasync.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"

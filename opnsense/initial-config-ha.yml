@@ -25,13 +25,13 @@
         validate_certs: "{{ vault.validate_certs }}"
         token_validate: "false"
       register: infra_secret
-  
+
     - name: Copy SSH private key - opnsense.
       ansible.builtin.copy:
         content: "{{ infra_secret.secret.opnsense_ssh }}"
         dest: "~/.ssh/opnsense"
         mode: "0600"
-  
+
 - name: Configure opnsense instances in HA mode.
   hosts: opnsenses_ha
   roles:

@@ -1,6 +1,6 @@
 ---
 
-- name: filters settings
+- name: Configure filter rules.
   delegate_to: localhost
   community.general.xml:
     path: "{{ local_config_path }}"
