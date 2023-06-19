@@ -1,0 +1,21 @@
+---
+
+- name: Create vlans.
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/vlans/vlan[tag/text()="{{ floating_ip_vlan.tag }}"]/{{ item.key }}
+    value: "{{ item.value }}"
+    pretty_print: true
+  loop: "{{ floating_ip_vlan | dict2items }}"
+
+- name: Set vlan uuid attribute.
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/vlans/vlan[tag/text()="{{ floating_ip_vlan.tag }}"]
+    attribute: uuid
+    value: "{{ (floating_ip.ip_address + '_vlan') | to_uuid }}"
+    pretty_print: true
+
+...

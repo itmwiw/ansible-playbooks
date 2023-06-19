@@ -33,49 +33,7 @@
         dest: "~/.ssh/opnsense"
         mode: "0600"
 
-    - name: Copy SSH private key - cisco.
-      ansible.builtin.copy:
-        content: "{{ infra_secret.secret.cisco_ssh }}"
-        dest: "~/.ssh/cisco"
-        mode: "0600"
-
 - name: Configure Opnsense.
   hosts: opnsenses
   roles:
     - opnsense-floating-ip
-
-- name: Configure Cisco switch.
-  hosts: switches
-  tasks:
-
-    - name: Create Vlans.
-      cisco.ios.ios_config:
-        lines:
-          - vlan {{ item.vlan }}
-          - name {{ 'Vlan_' + item.vlan }}
-      loop: "{{ floating_ips }}"
-      when: floating_ips is defined
-
-    - name: Configure Untagged Interfaces.
-      cisco.ios.ios_l2_interfaces:
-        config:
-          - name: "{{ item.switch_interface }}"
-            mode: access
-            access:
-              vlan: "{{ item.vlan }}"
-        state: merged
-      loop: "{{ floating_ips }}"
-      when: floating_ips is defined
-
-    - name: Configure tagged Interfaces.
-      cisco.ios.ios_config:
-        lines:
-          - switchport mode trunk
-          - switchport trunk allowed vlan "{{ '1,1002-1005,' + (floating_ips | map(attribute='vlan') | flatten | join(',')) }}"
-        parents: "{{ 'interface ' + item }}"
-      loop: "{{ switch_trunk_interfaces }}"
-      when: switch_trunk_interfaces is defined
-
-    - name: Save running to startup when modified.
-      cisco.ios.ios_config:
-        save_when: modified

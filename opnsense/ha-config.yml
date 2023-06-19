@@ -33,6 +33,6 @@
         mode: "0600"
 
 - name: Configure opnsense instances in HA mode.
-  hosts: opnsenses_ha
+  hosts: opnsenses
   roles:
-    - initial-config
+    - opnsense-ha

@@ -1,24 +1,31 @@
 infra_secret: "{{ hostvars.localhost.infra_secret }}"
-ansible_ssh_private_key_file: "~/.ssh/opnsense"
-ansible_user: root
-
-opnsense_vip:
-  lan: 
-    ip_address: 192.168.1.1
-    subnet_bits: 24
-  wan: 
-    ip_address: 192.168.102.253
-    subnet_bits: 24
+ansible_ssh_private_key_file: "~/.ssh/cisco"
+ansible_connection: ansible.netcommon.network_cli
+ansible_network_os: cisco.ios.ios
+ansible_user: admin
+# temporary as the testing swich is quite old and the 'ip ssh pubkey-chain' doesn't work.
+ansible_password: "{{ infra_secret.secret.cisco_password }}"
+ansible_become: true
+ansible_become_method: enable
+ansible_become_password: "{{ infra_secret.secret.cisco_enable_password }}"
 
 floating_ips:
  - ip_address: "45.157.60.200"
    vlan: "500"
+   switch_interface: "fa1/0"
  - ip_address: "45.157.60.201"
    vlan: "510"
+   switch_interface: "fa1/1"
  - ip_address: "45.157.60.202"
    vlan: "520"
+   switch_interface: "fa1/2"
  - ip_address: "45.157.60.203"
    vlan: "530"
+   switch_interface: "fa1/3"
+
+switch_trunk_interfaces:
+- "fa1/14"
+- "fa1/15"
 
 vault:
   url: "https://vault.apps.okd.advatys.com"

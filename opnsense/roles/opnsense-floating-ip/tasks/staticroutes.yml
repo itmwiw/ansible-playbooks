@@ -1,0 +1,20 @@
+---
+- name: Configure staticroutes.
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/staticroutes/route[descr/text()="Route to {{ floating_ip.ip_address }}"]/{{ item.key }}
+    value: "{{ item.value }}"
+    pretty_print: true
+  loop: "{{ floating_ip_route | dict2items }}"
+
+- name: Set route uuid attribute.
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/staticroutes/route[descr/text()="Route to {{ floating_ip.ip_address }}"]
+    attribute: uuid
+    value: "{{ (floating_ip.ip_address + '_route') | to_uuid }}"
+    pretty_print: true
+
+...

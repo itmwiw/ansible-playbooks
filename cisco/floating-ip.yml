@@ -27,22 +27,11 @@
         token_validate: "false"
       register: infra_secret
 
-    - name: Copy SSH private key - opnsense.
-      ansible.builtin.copy:
-        content: "{{ infra_secret.secret.opnsense_ssh }}"
-        dest: "~/.ssh/opnsense"
-        mode: "0600"
-
     - name: Copy SSH private key - cisco.
       ansible.builtin.copy:
         content: "{{ infra_secret.secret.cisco_ssh }}"
         dest: "~/.ssh/cisco"
         mode: "0600"
-
-- name: Configure Opnsense.
-  hosts: opnsenses
-  roles:
-    - opnsense-floating-ip
 
 - name: Configure Cisco switch.
   hosts: switches

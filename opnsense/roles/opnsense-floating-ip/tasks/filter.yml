@@ -1,0 +1,21 @@
+---
+
+- name: Filters settings - vlan to wan.
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/filter/rule[descr/text()="Allow traffic from {{ floating_ip.ip_address }}"]/{{ item.key }}
+    value: "{{ item.value }}"
+    pretty_print: true
+  loop: "{{ floating_ip_filter.vlan | dict2items }}"
+
+- name: Filters settings - wan to vlan.
+  delegate_to: localhost
+  community.general.xml:
+    path: "{{ local_config_path }}"
+    xpath: /opnsense/filter/rule[descr/text()="Allow traffic from wan to {{ floating_ip.ip_address }}"]/{{ item.key }}
+    value: "{{ item.value }}"
+    pretty_print: true
+  loop: "{{ floating_ip_filter.wan | dict2items }}"
+
+...
